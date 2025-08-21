@@ -1,20 +1,20 @@
 # build.yml
 
-name: Build and Release Binaries
+name: Build and Create Artifact
 
 on:
-  workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - 'master'
+
+  workflow_dispatch:
 
 jobs:
-  build-and-release:
+  build-and-archive:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      # This action checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -27,9 +27,10 @@ jobs:
         run: make
 
       - name: Package binaries
-        run: tar -czvf nsm-nift-${{ github.ref_name }}.tar.gz nsm nift
+        run: tar -czvf nsm-nift-${{ github.sha }}.tar.gz nsm nift
 
-      - name: Create GitHub Release and Upload Asset
-        uses: softprops/action-gh-release@v2
+      - name: Upload binaries as an artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: nsm-nift-${{ github.ref_name }}.tar.gz
+          name: nsm-nift-binaries
+          path: nsm-nift-${{ github.sha }}.tar.gz
