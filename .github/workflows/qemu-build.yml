@@ -19,8 +19,6 @@ jobs:
             cross_compile_prefix: "" # No prefix needed for native compilation.
           - arch: arm64
             cross_compile_prefix: aarch64-linux-gnu-
-          - arch: armhf
-            cross_compile_prefix: arm-linux-gnueabihf-
           - arch: mips
             cross_compile_prefix: mips-linux-gnu-
 
@@ -36,8 +34,6 @@ jobs:
           sudo apt update
           if [ "${{ matrix.arch }}" = "arm64" ]; then
             sudo apt install -y build-essential gcc-aarch64-linux-gnu make
-          elif [ "${{ matrix.arch }}" = "armhf" ]; then
-            sudo apt install -y build-essential gcc-arm-linux-gnueabihf make
           elif [ "${{ matrix.arch }}" = "mips" ]; then
             sudo apt install -y build-essential gcc-mips-linux-gnu make
           else
