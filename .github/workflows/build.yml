@@ -26,11 +26,10 @@ jobs:
       - name: Build nsm and nift
         run: make
 
-      - name: Package binaries
-        run: tar -czvf nsm-nift-${{ github.sha }}.tar.gz nsm nift
-
       - name: Upload binaries as an artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nsm-nift-binaries
-          path: nsm-nift-${{ github.sha }}.tar.gz
+          name: nsm-nift-${{ github.sha }}
+          path: |
+            nsm
+            nift
